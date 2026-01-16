@@ -38,7 +38,8 @@ public class HealthController {
         );
     }
 
-    // Record para demonstrar recurso do Java 14+ (disponível no JDK 21)
+    // Record pode ficar aqui se for usado só por esse controller, 
+    // ou pode ir para um arquivo próprio.
     public record AppInfo(
         String application,
         String version,
