@@ -17,7 +17,7 @@ public class RestauranteService {
         this.repository = repository;
     }
 
-    public Restaurante Cadastrar(Restaurante dados) {
+    public Restaurante cadastrar(Restaurante dados) {
         dados.setAtivo(true);
         return repository.save(dados);
     }
@@ -32,7 +32,7 @@ public class RestauranteService {
 
     public Restaurante buscarPorId(long id) {
         return repository.findById(id)
-            .orElseThrow(()-> new IllegalArgumentException("Cliente não encontrado"));
+            .orElseThrow(()-> new IllegalArgumentException("Restaurante não encontrado"));
     }
 
     public void desativar(long id) {

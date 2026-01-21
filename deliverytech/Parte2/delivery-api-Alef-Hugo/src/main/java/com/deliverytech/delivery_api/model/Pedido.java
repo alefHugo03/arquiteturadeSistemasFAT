@@ -7,20 +7,9 @@ import java.util.List;
 
 import com.deliverytech.delivery_api.enums.StatusPedidos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue; // Adicionado
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;             // Adicionado
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Getter
 @Setter
@@ -31,27 +20,21 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate dataPedido;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
-    private String enderecoEntrega;
-
-    private String numeroPedido;
-
-    private BigDecimal taxaEntrega;
-    private BigDecimal valorTotal;
+    @ManyToOne
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 
     @Enumerated(EnumType.STRING)
     private StatusPedidos status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurante_id")
-    private Restaurante restaurante;
+    private LocalDate dataPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private BigDecimal valorTotal;
 
-
-    @OneToMany(mappedBy= "pedido", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens = new ArrayList<>();
 }

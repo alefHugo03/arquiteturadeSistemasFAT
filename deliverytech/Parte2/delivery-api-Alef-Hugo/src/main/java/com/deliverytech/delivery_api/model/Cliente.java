@@ -1,8 +1,12 @@
 package com.deliverytech.delivery_api.model;
 
+
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,36 +18,46 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
+
 @Entity
 @Table(name = "clientes")
 public class Cliente {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
 
+    private String nome; 
 
-    @Column(unique=true, nullable = false)
+    @Column(unique= true, nullable = false)
     private String email;
-    
+
     private String telefone;
-    private String endereco;
 
+    private String endereco; 
 
-    @Column(name ="data_cadastro")
-    private LocalDateTime dataCadastro; 
+    @Column(name = "data_cadastro")
+    private LocalDateTime dataCadastro;
 
-    private Boolean ativo;
+    private boolean ativo;  
 
-
-    @OneToMany (mappedBy = "clientes")
+    @OneToMany(mappedBy="cliente")
+    @JsonIgnore
     private List<Pedido> pedidos = new ArrayList<>();
 
-
-    public Cliente() {}
-
-    public Cliente(Long id, String nome, String email) {
-    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
