@@ -1,0 +1,150 @@
+=====================================================================
+GUIA DE TESTES - DELIVERY TECH API
+=====================================================================
+
+Pré-requisitos:
+- Aplicação rodando em http://localhost:8080
+
+Ferramentas sugeridas:
+- Postman / Insomnia
+- cURL (Terminal)
+
+=====================================================================
+1. VERIFICAÇÃO DE SAÚDE (HEALTH CHECK)
+=====================================================================
+Verifique se a API está online.
+
+[GET] http://localhost:8080/health
+
+Exemplo cURL:
+curl -X GET http://localhost:8080/health
+
+[GET] http://localhost:8080/info
+curl -X GET http://localhost:8080/info
+
+[GET] http://localhost:8080/
+curl -X GET http://localhost:8080/
+
+=====================================================================
+2. CADASTROS BÁSICOS
+=====================================================================
+
+--- 2.1 Cadastrar Cliente ---
+[POST] http://localhost:8080/clientes
+Body (JSON):
+{
+    "nome": "Maria Silva",
+    "email": "maria.silva@email.com",
+    "telefone": "11988887777",
+    "endereco": "Rua das Acácias, 42"
+}
+
+Exemplo cURL:
+curl -X POST http://localhost:8080/clientes \
+     -H "Content-Type: application/json" \
+     -d '{"nome": "Maria Silva", "email": "maria.silva@email.com", "telefone": "11988887777", "endereco": "Rua das Acácias, 42"}'
+
+--- 2.1.1 Listar Clientes ---
+[GET] http://localhost:8080/clientes/listar
+curl -X GET http://localhost:8080/clientes/listar
+
+--- 2.1.2 Buscar Cliente por ID ---
+[GET] http://localhost:8080/clientes/1
+curl -X GET http://localhost:8080/clientes/1
+
+--- 2.1.3 Atualizar Cliente ---
+[PUT] http://localhost:8080/clientes/1
+curl -X PUT http://localhost:8080/clientes/1 \
+     -H "Content-Type: application/json" \
+     -d '{"nome": "Maria Souza", "email": "maria.silva@email.com", "telefone": "11999998888", "endereco": "Rua Nova, 10"}'
+
+--- 2.2 Cadastrar Restaurante ---
+[POST] http://localhost:8080/restaurantes
+Body (JSON):
+{
+    "nome": "Burger King da Esquina",
+    "categoria": "Lanches",
+    "endereco": "Av. Principal, 500"
+}
+
+Exemplo cURL:
+curl -X POST http://localhost:8080/restaurantes \
+     -H "Content-Type: application/json" \
+     -d '{"nome": "Burger King da Esquina", "categoria": "Lanches", "endereco": "Av. Principal, 500"}'
+
+--- 2.2.1 Listar Restaurantes ---
+[GET] http://localhost:8080/restaurantes/listar
+curl -X GET http://localhost:8080/restaurantes/listar
+
+--- 2.2.2 Buscar Restaurante por ID ---
+[GET] http://localhost:8080/restaurantes/1
+curl -X GET http://localhost:8080/restaurantes/1
+
+--- 2.3 Cadastrar Produto ---
+(Assumindo que o restaurante criado tem ID 1)
+[POST] http://localhost:8080/produtos/1
+Body (JSON):
+{
+    "nome": "X-Bacon",
+    "descricao": "Hambúrguer com bacon e queijo",
+    "preco": 25.90
+}
+
+Exemplo cURL:
+curl -X POST http://localhost:8080/produtos/1 \
+     -H "Content-Type: application/json" \
+     -d '{"nome": "X-Bacon", "descricao": "Hambúrguer com bacon e queijo", "preco": 25.90}'
+
+--- 2.3.1 Listar Produtos do Restaurante ---
+[GET] http://localhost:8080/produtos/restaurante/1
+curl -X GET http://localhost:8080/produtos/restaurante/1
+
+=====================================================================
+3. REALIZANDO PEDIDOS
+=====================================================================
+
+--- 3.1 Criar um Pedido ---
+(Cliente ID 1 pede no Restaurante ID 1)
+[POST] http://localhost:8080/pedidos/criar?clienteId=1&restauranteId=1
+
+Exemplo cURL:
+curl -X POST "http://localhost:8080/pedidos/criar?clienteId=1&restauranteId=1"
+
+--- 3.2 Adicionar Item ao Pedido ---
+(Adicionar 2 unidades do Produto ID 1 ao Pedido ID 1)
+[POST] http://localhost:8080/item-pedidos/adicionar?pedidoId=1&produtoId=1&quantidade=2
+
+Exemplo cURL:
+curl -X POST "http://localhost:8080/item-pedidos/adicionar?pedidoId=1&produtoId=1&quantidade=2"
+
+--- 3.3 Verificar Pedido (Listar por Cliente) ---
+[GET] http://localhost:8080/pedidos/cliente/1
+
+Exemplo cURL:
+curl -X GET http://localhost:8080/pedidos/cliente/1
+
+=====================================================================
+4. ATUALIZAÇÃO E REMOÇÃO
+=====================================================================
+
+--- 4.1 Atualizar Status do Pedido ---
+(Mudar Pedido ID 1 para EM_PREPARO)
+[PUT] http://localhost:8080/pedidos/1/status?status=EM_PREPARO
+
+Exemplo cURL:
+curl -X PUT "http://localhost:8080/pedidos/1/status?status=EM_PREPARO"
+
+--- 4.2 Remover Item do Pedido ---
+(Assumindo que o ItemPedido gerado tenha ID 1)
+[DELETE] http://localhost:8080/item-pedidos/1
+
+Exemplo cURL:
+curl -X DELETE http://localhost:8080/item-pedidos/1
+
+--- 4.3 Desativar Cliente ---
+[DELETE] http://localhost:8080/clientes/1
+curl -X DELETE http://localhost:8080/clientes/1
+
+--- 4.4 Desativar Restaurante ---
+[DELETE] http://localhost:8080/restaurantes/1
+curl -X DELETE http://localhost:8080/restaurantes/1
