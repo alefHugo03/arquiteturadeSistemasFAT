@@ -1,6 +1,7 @@
 package com.deliverytech.delivery_api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,16 @@ public class PedidoController {
     public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
     }
+
+    @GetMapping
+    public Map<String, String> listaOpcoes(){
+        return Map.of(
+                "POST - criar","/criar",
+                "GET - listar por cliente","/cliente/{id}",
+                "PUT - atualizar status","/{id}/status"
+        );
+    }
+
 
     @PostMapping("/criar")
     public Pedido criarPedido(@NonNull @RequestParam Long clienteId, @NonNull  @RequestParam Long restauranteId){

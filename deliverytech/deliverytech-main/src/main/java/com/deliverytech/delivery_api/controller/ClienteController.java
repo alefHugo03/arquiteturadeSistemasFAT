@@ -1,6 +1,7 @@
 package com.deliverytech.delivery_api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -25,6 +26,17 @@ public class ClienteController {
 
     public ClienteController(ClienteService service){
         this.service = service;
+    }
+
+    @GetMapping
+    public Map<String, String> listaOpcoes(){
+        return Map.of(
+                "POST - cadastrar","esse caminho",
+                "GET - listarTudo","/listar",
+                "GET - buscarPorId","/{Id}",
+                "PUT - atualizar","/{Id}",
+                "DELETE - deletar","/{id}"
+        );
     }
 
     @PostMapping
