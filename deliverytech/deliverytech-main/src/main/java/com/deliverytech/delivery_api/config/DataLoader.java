@@ -89,9 +89,36 @@ public class DataLoader {
             produto2.setDisponivel(true);
             produto2.setRestaurante(restaurante2);
 
+            Produto produto3 = new Produto();
+            produto3.setNome("X-Burguer");
+            produto3.setDescricao("Pão, alface, tomate, chedar e hambúrguer");
+            produto3.setPreco(new BigDecimal("29.00"));
+            produto3.setCategoria("Hambúrguer");
+            produto3.setDisponivel(true);
+            produto3.setRestaurante(restaurante2);
+
+            Produto produto4 = new Produto();
+            produto4.setNome("Pizza de brócolis");
+            produto4.setDescricao("Pizza com brócolis, bacon e broda de catupiry");
+            produto4.setPreco(new BigDecimal("50.00"));
+            produto4.setCategoria("Pizza");
+            produto4.setDisponivel(true);
+            produto4.setRestaurante(restaurante1);
+
+            Produto produto5 = new Produto();
+            produto5.setNome("Coca-Cola");
+            produto5.setDescricao("Refrigerante 600ml");
+            produto5.setPreco(new BigDecimal("12.00"));
+            produto5.setCategoria("Bebidas");
+            produto5.setDisponivel(true);
+            produto5.setRestaurante(restaurante1);
+
             List<Produto>produtos =new ArrayList<>();
             produtos.add(produto1);
             produtos.add(produto2);
+            produtos.add(produto3);
+            produtos.add(produto4);
+            produtos.add(produto5);
 
             produtoRepository.saveAll(produtos);
             System.out.println("Carregando Produtos");

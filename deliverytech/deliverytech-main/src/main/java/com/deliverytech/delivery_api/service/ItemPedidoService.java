@@ -1,6 +1,7 @@
 package com.deliverytech.delivery_api.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class ItemPedidoService {
         this.repository = repository;
         this.pedidoRepository = pedidoRepository;
         this.produtoRepository = produtoRepository;
+    }
+
+    public List<ItemPedido> listarPorPedido(Long pedidoId){
+        return repository.findByPedidoId(pedidoId);
     }
 
     public ItemPedido adicionarItem(@NonNull Long pedidoId, @NonNull Long produtoId, Integer quantidade) {

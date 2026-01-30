@@ -20,22 +20,32 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     @Query("""
             SELECT p FROM Pedido p
-            WHERE p.dataPedido  BETWEEN :inicio AND :fim
+            WHERE p.dataPedido BETWEEN :inicio AND :fim
     """)
     List<Pedido> findByDateTime(
-        @Param("inicio") LocalDateTime inicio,
-        @Param("fim") LocalDateTime fim
+            @Param("inicio") LocalDateTime inicio,
+            @Param("fim") LocalDateTime fim
     );
 
+    // FIXED QUERY BELOW
     @Query("""
-            select com.deliverytech.delivery_api.dto.TotalVendasPorRestauranteDTO(
-            r.NOME,
-            coalesce(sum(ip.SUBTOTAL), 0) as total_por_restaurante
-            )
-            from RESTAURANTES r
-            join PEDIDOS p on p.RESTAURANTE_ID = r.ID 
-            join ITENS_PEDIDO ip on ip.PEDIDO_ID = p.ID
-            group by r.NOME;
-        """)
+        SELECT new com.deliverytech.delivery_api.dto.TotalVendasPorRestauranteDTO(
+            p.restaurante.nome,
+            COALESCE(SUM(ip.subtotal), 0)
+        )
+        FROM Pedido p
+        JOIN p.itens ip
+        WHERE p.status = 'ENTREGUE'  
+        GROUP BY p.restaurante.nome
+    """)
     List<TotalVendasPorRestauranteDTO> totalVendasPorRestaurante();
+
+    @Query(value= """
+        SELECT c.nome AS cliente, count(p.id) as total_pedidos
+        FROM pedidos p
+        JOIN clientes c on c.id = p.cliente_id
+        GROUP BY c.nome
+        ORDER BY total_pedidos DESC
+    """, nativeQuery = true)
+    List<Object[]> rankingClientes();
 }

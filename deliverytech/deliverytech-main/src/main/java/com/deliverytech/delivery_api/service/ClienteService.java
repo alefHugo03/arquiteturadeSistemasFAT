@@ -65,5 +65,11 @@ public class ClienteService {
         fulano.setAtivo(false);
         repository.save(fulano);
     }
+
+    public void ativar(@NonNull Long id){
+        Cliente fulano = buscarPorId(id);
+        fulano.setAtivo(true);
+        repository.save(fulano);
+    }
     
 }

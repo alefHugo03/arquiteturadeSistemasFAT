@@ -19,4 +19,9 @@ public class RelatorioController {
     public List<TotalVendasPorRestauranteDTO>  totalVendasPorRestaurante() {
         return relatorioService.totalVendasPorRestaurante();
     }
+
+    @GetMapping("/ranking-clientes-pedido")
+    public List<Object[]> rankingClientesPedidos() {
+        return relatorioService.rankingClientes();
+    }
 }

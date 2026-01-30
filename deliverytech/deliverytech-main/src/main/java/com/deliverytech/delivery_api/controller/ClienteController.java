@@ -59,10 +59,16 @@ public class ClienteController {
         return service.atualizar(id, dados);
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/desativar/{id}")
     public ResponseEntity<Void> desativar(@NonNull @PathVariable Long id){
         service.desativar(id);
         return ResponseEntity.noContent().build();
-    }    
+    }
+
+    @PutMapping("/desativar/{id}")
+    public ResponseEntity<Void> ativar(@NonNull @PathVariable Long id){
+        service.ativar(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

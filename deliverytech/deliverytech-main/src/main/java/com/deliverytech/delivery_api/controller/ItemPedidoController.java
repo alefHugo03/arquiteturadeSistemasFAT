@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.deliverytech.delivery_api.model.ItemPedido;
 import com.deliverytech.delivery_api.service.ItemPedidoService;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +26,12 @@ public class ItemPedidoController {
                 "DELETE - deletar","/{id}"
         );
     }
+
+    @GetMapping("/pedido/{pedidoId}")
+    public List<ItemPedido> listarPorPedido(@PathVariable Long pedidoId){
+        return service.listarPorPedido(pedidoId);
+    }
+
 
     @PostMapping("/adicionar")
     public ResponseEntity<ItemPedido> adicionarItem(
